@@ -1,0 +1,8 @@
+*.md
+*.log
+.git
+.circleci
+.gitignore
+docker-compose.override.yml
+.env
+/bin/*

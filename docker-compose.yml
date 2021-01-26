@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  redis:
+    container_name: velociraptor-redis
+    image: redis
+    ports:
+      - '6379:6379'
+  monitoring-dead-letter:
+    container_name: velociraptor-monitoring-dead-letter
+    build:
+      context: .
+      dockerfile: ./build/monitoring/Dockerfile
+    command: sub:dead-letter-monitoring
+    env_file: ./.env
+    volumes:
+      - ./test-credentials/velociraptor-key.json:/keys/key.json
+    networks:
+      - main
+  monitoring:
+    container_name: velociraptor-monitoring
+    build:
+      context: .
+      dockerfile: ./build/monitoring/Dockerfile
+    command: sub:mongo-monitoring
+    env_file: ./.env
+    volumes:
+      - ./test-credentials/velociraptor-key.json:/keys/key.json
+    networks:
+      - main
+  catalog:
+    container_name: velociraptor-catalog
+    build:
+      context: .
+      dockerfile: ./build/catalog/Dockerfile
+    image: velociraptor/catalog
+    depends_on:
+      - redis
+    command: serve
+    ports:
+      - '4000:4000'
+    env_file: ./.env
+    volumes:
+      - ./test-credentials/velociraptor-key.json:/keys/key.json
+    networks:
+      - main
+  
+networks:
+  main:
+    driver: bridge
