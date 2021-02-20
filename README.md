@@ -15,7 +15,7 @@ To test trade offs between non event driven and event driven microservices and b
 - Docker (to run the project with ```docker-compose```)
 - PostgreSQL 
 - MongoDB
-- GCP service account key with PubSub Admin permissions, or fine grained ones for topics and subscriptions. Check out ```./pkg/topics``` & ```./pkg/subscriptions````
+- GCP service account key with PubSub Admin permissions, or fine grained ones for topics and subscriptions. Check out ```./pkg/topics``` & ```./pkg/subscriptions```
 
 #### Migrate DB
 
